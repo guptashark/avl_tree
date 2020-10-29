@@ -3,13 +3,20 @@
 #include "avl_tree.h"
 
 // node ctor
+// indent the member initializer list for easy reading.
 avl_tree::node::node(int key):
-key(key), left(nullptr), right(nullptr), parent(nullptr), height(1) {}
+	key(key),
+	left(nullptr),
+	right(nullptr),
+	parent(nullptr),
+	height(1),
+	balance(0) {}
 
 void avl_tree::node::print_structure(int indent) {
 
 	std::cout << "(P: " << key;
 	std::cout << " (h: " << height << ")";
+	std::cout << " (b: " << balance << ")";
 	std::cout << std::endl;
 
 	indent += 2;
@@ -105,10 +112,16 @@ void avl_tree::insert(int key) {
 	node * added_node = insert_helper(key);
 	node * curr = added_node->parent;
 
-	while ( curr != nullptr ) {
+	// checks to see if the node height was updated.
+	// if it wasn't, then none of the parent heights
+	// will be updated, so we can exit.
+	bool updated = true;
+
+	while ( curr != nullptr && updated ) {
 
 		int left_height = 0;
 		int right_height = 0;
+		int new_height = 0;
 
 		if ( curr->left != nullptr ) {
 			left_height = curr->left->height;
@@ -119,9 +132,16 @@ void avl_tree::insert(int key) {
 		}
 
 		if ( left_height > right_height ) {
-			curr->height = left_height + 1;
+			new_height = left_height + 1;
 		} else {
-			curr->height = right_height + 1;
+			new_height = right_height + 1;
+		}
+
+		if ( curr->height == new_height ) {
+			updated = false;
+		} else {
+			curr->height = new_height;
+			curr->balance = right_height - left_height;
 		}
 
 		curr = curr->parent;

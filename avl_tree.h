@@ -12,6 +12,7 @@ private:
 		node * parent;
 
 		int height;
+		int balance;
 
 		node(int key);
 
