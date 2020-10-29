@@ -30,6 +30,8 @@ private:
 	node * update_balances(node * added_node);
 
 	void execute_rotations(node * unblanaced_subtree);
+	void rotate_left(node * x, node * z);
+	void rotate_right(node * x, node * z);
 
 public:
 	avl_tree(void);

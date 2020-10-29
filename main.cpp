@@ -39,13 +39,13 @@ void test_insert(void) {
 
 	avl_tree tree;
 
-	tree.insert(100);
+	tree.insert(300);
 	assert( tree.size() == 1 );
 
 	tree.insert(200);
 	assert( tree.size() == 2 );
 
-	tree.insert(300);
+	tree.insert(100);
 
 	//tree.print_structure();
 }
