@@ -5,6 +5,7 @@
 
 void test_empty(void);
 void test_size(void);
+void test_insert(void);
 
 int main(int argc, char * argv[]) {
 
@@ -15,6 +16,7 @@ int main(int argc, char * argv[]) {
 
 	test_empty();
 	test_size();
+	test_insert();
 
 	return 0;
 }
@@ -31,4 +33,15 @@ void test_size(void) {
 	avl_tree tree;
 
 	assert( tree.size() == 0 );
+}
+
+void test_insert(void) {
+
+	avl_tree tree;
+
+	tree.insert(100);
+	assert( tree.size() == 1 );
+
+	tree.insert(50);
+	assert( tree.size() == 2 );
 }

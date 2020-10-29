@@ -10,6 +10,8 @@ private:
 		node * left;
 		node * right;
 		node * parent;
+
+		node(int key);
 	};
 
 	// number of nodes
@@ -22,6 +24,8 @@ public:
 
 	bool empty(void) const;
 	int size(void) const;
+
+	void insert(int key);
 };
 
 #endif
