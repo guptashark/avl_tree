@@ -20,5 +20,8 @@ private:
 public:
 	avl_tree(void);
 
+	bool empty(void) const;
+	int size(void) const;
 };
+
 #endif
