@@ -11,6 +11,8 @@ private:
 		node * right;
 		node * parent;
 
+		int height;
+
 		node(int key);
 
 		void print_structure(int indent);
@@ -22,6 +24,7 @@ private:
 	node * root;
 
 	// private member functions
+	node * insert_helper(int key);
 
 public:
 	avl_tree(void);

@@ -4,12 +4,13 @@
 
 // node ctor
 avl_tree::node::node(int key):
-key(key), left(nullptr), right(nullptr), parent(nullptr) {}
+key(key), left(nullptr), right(nullptr), parent(nullptr), height(1) {}
 
 void avl_tree::node::print_structure(int indent) {
 
-	std::cout << "(P: ";
-	std::cout << key << std::endl;
+	std::cout << "(P: " << key;
+	std::cout << " (h: " << height << ")";
+	std::cout << std::endl;
 
 	indent += 2;
 
@@ -58,14 +59,14 @@ int avl_tree::size(void) const {
 	return num_nodes;
 }
 
-void avl_tree::insert(int key) {
+avl_tree::node * avl_tree::insert_helper(int key) {
 
 	node * new_node = new node(key);
 
 	if ( root == nullptr ) {
 		root = new_node;
 		num_nodes++;
-		return;
+		return new_node;
 	}
 
 	node * curr = root;
@@ -95,6 +96,36 @@ void avl_tree::insert(int key) {
 	}
 
 	num_nodes++;
+
+	return new_node;
+}
+
+void avl_tree::insert(int key) {
+
+	node * added_node = insert_helper(key);
+	node * curr = added_node->parent;
+
+	while ( curr != nullptr ) {
+
+		int left_height = 0;
+		int right_height = 0;
+
+		if ( curr->left != nullptr ) {
+			left_height = curr->left->height;
+		}
+
+		if ( curr->right != nullptr ) {
+			right_height = curr->right->height;
+		}
+
+		if ( left_height > right_height ) {
+			curr->height = left_height + 1;
+		} else {
+			curr->height = right_height + 1;
+		}
+
+		curr = curr->parent;
+	}
 }
 
 void avl_tree::print_structure(void) {

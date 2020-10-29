@@ -46,6 +46,8 @@ void test_insert(void) {
 	assert( tree.size() == 2 );
 
 	tree.insert(200);
+	tree.insert(300);
+	tree.insert(250);
 
 	tree.print_structure();
 }
