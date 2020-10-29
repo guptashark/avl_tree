@@ -182,13 +182,26 @@ void avl_tree::execute_rotations(avl_tree::node * unbalanced_subtree) {
 
 	node * x = unbalanced_subtree;
 	node * z = nullptr;
+	node * y = nullptr;
 
 	if ( x->balance == 2 ) {
 		z = x->right;
-		rotate_left(x, z);
+		if ( z->balance == -1) {
+			y = z->left;
+			rotate_right(z, y);
+			rotate_left(x, y);
+		} else {
+			rotate_left(x, z);
+		}
 	} else {
 		z = x->left;
-		rotate_right(x, z);
+		if ( z->balance == 1) {
+			y = z->right;
+			rotate_left(z, y);
+			rotate_right(x, y);
+		} else {
+			rotate_right(x, z);
+		}
 	}
 }
 
