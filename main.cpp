@@ -42,12 +42,10 @@ void test_insert(void) {
 	tree.insert(100);
 	assert( tree.size() == 1 );
 
-	tree.insert(50);
+	tree.insert(200);
 	assert( tree.size() == 2 );
 
-	tree.insert(200);
 	tree.insert(300);
-	tree.insert(250);
 
-	tree.print_structure();
+	//tree.print_structure();
 }

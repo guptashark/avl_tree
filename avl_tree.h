@@ -26,6 +26,10 @@ private:
 
 	// private member functions
 	node * insert_helper(int key);
+	void rebalance(node * added_node);
+	node * update_balances(node * added_node);
+
+	void execute_rotations(node * unblanaced_subtree);
 
 public:
 	avl_tree(void);

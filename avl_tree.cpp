@@ -110,6 +110,26 @@ avl_tree::node * avl_tree::insert_helper(int key) {
 void avl_tree::insert(int key) {
 
 	node * added_node = insert_helper(key);
+	std::cout << "Before rebalance" << std::endl;
+	print_structure();
+
+	rebalance(added_node);
+
+	std::cout << "After rebalance" << std::endl;
+	print_structure();
+}
+
+void avl_tree::rebalance(avl_tree::node * added_node) {
+
+	node * unblanaced_subtree = update_balances(added_node);
+
+	if ( unblanaced_subtree != nullptr ) {
+		execute_rotations ( unblanaced_subtree );
+	}
+}
+
+avl_tree::node * avl_tree::update_balances(avl_tree::node * added_node) {
+
 	node * curr = added_node->parent;
 
 	// checks to see if the node height was updated.
@@ -144,8 +164,56 @@ void avl_tree::insert(int key) {
 			curr->balance = right_height - left_height;
 		}
 
+		if ( curr->balance == -2 || curr->balance == 2) {
+			return curr;
+		}
+
 		curr = curr->parent;
 	}
+
+	// either there were no updates so the tree is
+	// balanced, or we reached the root and it's still
+	// balanced. Return null.
+
+	return nullptr;
+}
+
+void avl_tree::execute_rotations(avl_tree::node * unbalanced_subtree) {
+
+	node * par = nullptr;
+
+	node * x = unbalanced_subtree;
+	node * z = nullptr;
+
+	if ( x->balance == 2 ) {
+		z = x->right;
+	} else {
+		// for now
+		return;
+
+	}
+
+	z->parent = x->parent;
+
+	// update so that z is the root of the subtree.
+	if ( x->parent != nullptr) {
+
+		par = x->parent;
+
+		if ( par->left == x) {
+			par->left = z;
+		} else {
+			par->right = z;
+		}
+	} else {
+		root = z;
+	}
+
+	x->right = z->left;
+	z->left = x;
+
+	x->balance = 0;
+	z->balance = 0;
 }
 
 void avl_tree::print_structure(void) {
