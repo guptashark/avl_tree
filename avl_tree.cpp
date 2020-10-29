@@ -1,8 +1,52 @@
+#include <iostream>
+
 #include "avl_tree.h"
 
 // node ctor
 avl_tree::node::node(int key):
 key(key), left(nullptr), right(nullptr), parent(nullptr) {}
+
+void avl_tree::node::print_structure(int indent) {
+
+	std::cout << "(P: ";
+	std::cout << key << std::endl;
+
+	indent += 2;
+
+	{
+		for ( int i = 0; i < indent; i++) {
+			std::cout << " ";
+		}
+
+		std::cout << "(L: ";
+
+		if ( left != nullptr ) {
+			left->print_structure(indent);
+		} else {
+			std::cout << "-";
+		}
+
+		std::cout << ")" << std::endl;
+	}
+
+	{
+		for ( int i = 0; i < indent; i++) {
+			std::cout << " ";
+		}
+
+		std::cout << "(R: ";
+
+		if ( right != nullptr ) {
+			right->print_structure(indent);
+		} else {
+			std::cout << "-";
+		}
+
+		std::cout << ")";
+	}
+
+	std::cout << ")";
+}
 
 avl_tree::avl_tree(void): num_nodes(0), root(nullptr) {}
 
@@ -51,4 +95,11 @@ void avl_tree::insert(int key) {
 	}
 
 	num_nodes++;
+}
+
+void avl_tree::print_structure(void) {
+
+	root->print_structure(0);
+
+	std::cout << std::endl;
 }

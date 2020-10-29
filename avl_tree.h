@@ -12,12 +12,16 @@ private:
 		node * parent;
 
 		node(int key);
+
+		void print_structure(int indent);
 	};
 
 	// number of nodes
 	int num_nodes;
 
 	node * root;
+
+	// private member functions
 
 public:
 	avl_tree(void);
@@ -26,6 +30,8 @@ public:
 	int size(void) const;
 
 	void insert(int key);
+
+	void print_structure();
 };
 
 #endif
