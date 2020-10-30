@@ -254,13 +254,11 @@ void avl_tree::execute_rotations(avl_tree::node * unbalanced_subtree) {
 
 void avl_tree::rotate_left(avl_tree::node *x, avl_tree::node *z) {
 
-	node * par = nullptr;
-	z->parent = x->parent;
+	node * par = x->parent;
+	z->parent = par;
 
 	// update so that z is the root of the subtree.
-	if ( x->parent != nullptr) {
-
-		par = x->parent;
+	if ( par != nullptr) {
 
 		if ( par->left == x) {
 			par->left = z;
@@ -272,7 +270,12 @@ void avl_tree::rotate_left(avl_tree::node *x, avl_tree::node *z) {
 	}
 
 	x->right = z->left;
+	if ( x->right != nullptr) {
+		x->right->parent = x;
+	}
+
 	z->left = x;
+	x->parent = z;
 
 	x->balance = 0;
 	z->balance = 0;
@@ -280,14 +283,11 @@ void avl_tree::rotate_left(avl_tree::node *x, avl_tree::node *z) {
 
 void avl_tree::rotate_right(avl_tree::node *x, avl_tree::node *z) {
 
-	node * par = nullptr;
-	z->parent = x->parent;
+	node * par = x->parent;
+	z->parent = par;
 
 	// update so that z is the root of the subtree.
-	if ( x->parent != nullptr) {
-
-		par = x->parent;
-
+	if ( par != nullptr) {
 		if ( par->left == x) {
 			par->left = z;
 		} else {
@@ -298,7 +298,12 @@ void avl_tree::rotate_right(avl_tree::node *x, avl_tree::node *z) {
 	}
 
 	x->left = z->right;
+	if ( x->left != nullptr) {
+		x->left->parent = x;
+	}
+
 	z->right = x;
+	x->parent = z;
 
 	x->balance = 0;
 	z->balance = 0;
