@@ -66,6 +66,14 @@ int avl_tree::size(void) const {
 	return num_nodes;
 }
 
+int avl_tree::get_node_height(avl_tree::node * n) {
+	if ( n == nullptr ) {
+		return 0;
+	} else {
+		return n->height;
+	}
+}
+
 avl_tree::node * avl_tree::insert_helper(int key) {
 
 	node * new_node = new node(key);
@@ -139,17 +147,10 @@ avl_tree::node * avl_tree::update_balances(avl_tree::node * added_node) {
 
 	while ( curr != nullptr && updated ) {
 
-		int left_height = 0;
-		int right_height = 0;
 		int new_height = 0;
 
-		if ( curr->left != nullptr ) {
-			left_height = curr->left->height;
-		}
-
-		if ( curr->right != nullptr ) {
-			right_height = curr->right->height;
-		}
+		int left_height = get_node_height(curr->left);
+		int right_height = get_node_height(curr->right);
 
 		if ( left_height > right_height ) {
 			new_height = left_height + 1;
@@ -165,6 +166,8 @@ avl_tree::node * avl_tree::update_balances(avl_tree::node * added_node) {
 		}
 
 		if ( curr->balance == -2 || curr->balance == 2) {
+			// need to return, as this is the node
+			// where a rotation needs to happen.
 			return curr;
 		}
 

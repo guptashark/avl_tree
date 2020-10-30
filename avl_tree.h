@@ -25,6 +25,7 @@ private:
 	node * root;
 
 	// private member functions
+	int get_node_height(node * n);
 	node * insert_helper(int key);
 	void rebalance(node * added_node);
 	node * update_balances(node * added_node);
