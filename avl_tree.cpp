@@ -74,6 +74,56 @@ int avl_tree::get_node_height(avl_tree::node * n) {
 	}
 }
 
+bool avl_tree::equality_check_helper
+(avl_tree::node * a, avl_tree::node * b) {
+
+	if ( (a == nullptr) && (b == nullptr)) {
+		return true;
+	}
+
+	// check that one isn't a nullptr
+	{
+		if ( (a == nullptr) && (b != nullptr)) {
+			return false;
+		}
+
+		if ( (a != nullptr) && (b == nullptr)) {
+			return false;
+		}
+	}
+
+	// check key
+	if ( a->key != b->key) {
+		return false;
+	}
+
+	// check that the key of the parent is the same.
+	{
+		node * p_a = a->parent;
+		node * p_b = b->parent;
+
+		if ( (p_a == nullptr) && (p_b != nullptr)) {
+			return false;
+		}
+
+		if ( (p_a != nullptr) && (p_b == nullptr)) {
+			return false;
+		}
+
+		if ( p_a != nullptr ) {
+			if ( p_a->key != p_b->key) {
+				return false;
+			}
+		}
+	}
+
+	// recursively check the children
+	bool left_match = equality_check_helper(a->left, b->left);
+	bool right_match = equality_check_helper(a->right, b->right);
+
+	return ( left_match && right_match );
+}
+
 avl_tree::node * avl_tree::insert_helper(int key) {
 
 	node * new_node = new node(key);
@@ -118,13 +168,7 @@ avl_tree::node * avl_tree::insert_helper(int key) {
 void avl_tree::insert(int key) {
 
 	node * added_node = insert_helper(key);
-	std::cout << "Before rebalance" << std::endl;
-	print_structure();
-
 	rebalance(added_node);
-
-	std::cout << "After rebalance" << std::endl;
-	print_structure();
 }
 
 void avl_tree::rebalance(avl_tree::node * added_node) {
@@ -258,6 +302,11 @@ void avl_tree::rotate_right(avl_tree::node *x, avl_tree::node *z) {
 
 	x->balance = 0;
 	z->balance = 0;
+}
+
+bool avl_tree::equality_check(const avl_tree & other) {
+
+	return equality_check_helper(root, other.root);
 }
 
 void avl_tree::print_structure(void) {

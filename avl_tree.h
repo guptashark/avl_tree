@@ -26,6 +26,8 @@ private:
 
 	// private member functions
 	int get_node_height(node * n);
+	bool equality_check_helper(node * a, node * b);
+
 	node * insert_helper(int key);
 	void rebalance(node * added_node);
 	node * update_balances(node * added_node);
@@ -41,6 +43,8 @@ public:
 	int size(void) const;
 
 	void insert(int key);
+
+	bool equality_check(const avl_tree & other);
 
 	void print_structure();
 };

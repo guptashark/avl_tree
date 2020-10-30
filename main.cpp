@@ -6,6 +6,7 @@
 void test_empty(void);
 void test_size(void);
 void test_insert(void);
+void test_left_rotation(void);
 
 int main(int argc, char * argv[]) {
 
@@ -17,6 +18,7 @@ int main(int argc, char * argv[]) {
 	test_empty();
 	test_size();
 	test_insert();
+	test_left_rotation();
 
 	return 0;
 }
@@ -46,6 +48,25 @@ void test_insert(void) {
 	assert( tree.size() == 2 );
 
 	tree.insert(150);
+}
 
-	//tree.print_structure();
+void test_left_rotation(void) {
+
+	avl_tree expected_tree;
+
+	expected_tree.insert(200);
+	expected_tree.insert(100);
+	expected_tree.insert(300);
+
+	avl_tree actual_tree;
+
+	actual_tree.insert(100);
+	actual_tree.insert(200);
+	actual_tree.insert(300);
+
+	bool result = actual_tree.equality_check(expected_tree);
+
+	if ( result == false ) {
+		std::cout << "Left rotation test failed" << std::endl;
+	}
 }
