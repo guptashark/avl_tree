@@ -103,6 +103,11 @@ bool avl_tree::equality_check_helper
 		return false;
 	}
 
+	// check the height
+	if ( a->height != b->height ) {
+		return false;
+	}
+
 	// check that the key of the parent is the same.
 	{
 		node * p_a = a->parent;
