@@ -288,6 +288,29 @@ void avl_tree::rotate_left(avl_tree::node *x, avl_tree::node *z) {
 
 	z->left = x;
 	x->parent = z;
+
+	// recalculate the heights.
+	{
+		int left_height = get_node_height(x->left);
+		int right_height = get_node_height(x->right);
+
+		if ( left_height > right_height ) {
+			x->height = left_height + 1;
+		} else {
+			x->height = right_height + 1;
+		}
+	}
+
+	{
+		int left_height = get_node_height(z->left);
+		int right_height = get_node_height(z->right);
+
+		if ( left_height > right_height ) {
+			z->height = left_height + 1;
+		} else {
+			z->height = right_height + 1;
+		}
+	}
 }
 
 void avl_tree::rotate_right(avl_tree::node *x, avl_tree::node *z) {
@@ -313,6 +336,29 @@ void avl_tree::rotate_right(avl_tree::node *x, avl_tree::node *z) {
 
 	z->right = x;
 	x->parent = z;
+
+	// recalculate the heights.
+	{
+		int left_height = get_node_height(x->left);
+		int right_height = get_node_height(x->right);
+
+		if ( left_height > right_height ) {
+			x->height = left_height + 1;
+		} else {
+			x->height = right_height + 1;
+		}
+	}
+
+	{
+		int left_height = get_node_height(z->left);
+		int right_height = get_node_height(z->right);
+
+		if ( left_height > right_height ) {
+			z->height = left_height + 1;
+		} else {
+			z->height = right_height + 1;
+		}
+	}
 }
 
 bool avl_tree::equality_check(const avl_tree & other) {
