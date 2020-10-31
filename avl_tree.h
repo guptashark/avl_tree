@@ -12,7 +12,6 @@ private:
 		node * parent;
 
 		int height;
-		int balance;
 
 		node(int key);
 
@@ -25,6 +24,7 @@ private:
 	node * root;
 
 	// private member functions
+	int get_node_balance(node * n);
 	int get_node_height(node * n);
 	bool equality_check_helper(node * a, node * b);
 

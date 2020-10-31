@@ -9,14 +9,12 @@ avl_tree::node::node(int key):
 	left(nullptr),
 	right(nullptr),
 	parent(nullptr),
-	height(1),
-	balance(0) {}
+	height(1) {}
 
 void avl_tree::node::print_structure(int indent) {
 
 	std::cout << "(P: " << key;
 	std::cout << " (h: " << height << ")";
-	std::cout << " (b: " << balance << ")";
 	std::cout << std::endl;
 
 	indent += 2;
@@ -64,6 +62,14 @@ bool avl_tree::empty(void) const {
 
 int avl_tree::size(void) const {
 	return num_nodes;
+}
+
+int avl_tree::get_node_balance(avl_tree::node * n) {
+	int left_height = get_node_height(n->left);
+	int right_height = get_node_height(n->right);
+	int balance = right_height - left_height;
+
+	return balance;
 }
 
 int avl_tree::get_node_height(avl_tree::node * n) {
@@ -192,6 +198,7 @@ avl_tree::node * avl_tree::update_balances(avl_tree::node * added_node) {
 	while ( curr != nullptr && updated ) {
 
 		int new_height = 0;
+		int current_balance = 0;
 
 		int left_height = get_node_height(curr->left);
 		int right_height = get_node_height(curr->right);
@@ -206,10 +213,10 @@ avl_tree::node * avl_tree::update_balances(avl_tree::node * added_node) {
 			updated = false;
 		} else {
 			curr->height = new_height;
-			curr->balance = right_height - left_height;
+			current_balance = right_height - left_height;
 		}
 
-		if ( curr->balance == -2 || curr->balance == 2) {
+		if ( current_balance == -2 || current_balance == 2) {
 			// need to return, as this is the node
 			// where a rotation needs to happen.
 			return curr;
@@ -231,9 +238,9 @@ void avl_tree::execute_rotations(avl_tree::node * unbalanced_subtree) {
 	node * z = nullptr;
 	node * y = nullptr;
 
-	if ( x->balance == 2 ) {
+	if ( get_node_balance(x) == 2 ) {
 		z = x->right;
-		if ( z->balance == -1) {
+		if ( get_node_balance(z) == -1) {
 			y = z->left;
 			rotate_right(z, y);
 			rotate_left(x, y);
@@ -242,7 +249,7 @@ void avl_tree::execute_rotations(avl_tree::node * unbalanced_subtree) {
 		}
 	} else {
 		z = x->left;
-		if ( z->balance == 1) {
+		if ( get_node_balance(z) == 1) {
 			y = z->right;
 			rotate_left(z, y);
 			rotate_right(x, y);
@@ -276,9 +283,6 @@ void avl_tree::rotate_left(avl_tree::node *x, avl_tree::node *z) {
 
 	z->left = x;
 	x->parent = z;
-
-	x->balance = 0;
-	z->balance = 0;
 }
 
 void avl_tree::rotate_right(avl_tree::node *x, avl_tree::node *z) {
@@ -304,9 +308,6 @@ void avl_tree::rotate_right(avl_tree::node *x, avl_tree::node *z) {
 
 	z->right = x;
 	x->parent = z;
-
-	x->balance = 0;
-	z->balance = 0;
 }
 
 bool avl_tree::equality_check(const avl_tree & other) {
