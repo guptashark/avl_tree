@@ -74,6 +74,48 @@ void test_right_rotation(void) {
 	}
 }
 
+void test_left_right_rotation(void) {
+
+	avl_tree expected_tree;
+
+	expected_tree.insert(200);
+	expected_tree.insert(100);
+	expected_tree.insert(300);
+
+	avl_tree actual_tree;
+
+	actual_tree.insert(300);
+	actual_tree.insert(100);
+	actual_tree.insert(200);
+
+	bool result = actual_tree.equality_check(expected_tree);
+
+	if ( result == false ) {
+		std::cout << "Left Right rotation test failed" << std::endl;
+	}
+}
+
+void test_right_left_rotation(void) {
+
+	avl_tree expected_tree;
+
+	expected_tree.insert(200);
+	expected_tree.insert(100);
+	expected_tree.insert(300);
+
+	avl_tree actual_tree;
+
+	actual_tree.insert(100);
+	actual_tree.insert(300);
+	actual_tree.insert(200);
+
+	bool result = actual_tree.equality_check(expected_tree);
+
+	if ( result == false ) {
+		std::cout << "Left Right rotation test failed" << std::endl;
+	}
+}
+
 void run_all_avl_tests(void) {
 
 	test_empty();
@@ -81,4 +123,7 @@ void run_all_avl_tests(void) {
 	test_insert();
 	test_left_rotation();
 	test_right_rotation();
+
+	test_left_right_rotation();
+	test_right_left_rotation();
 }
