@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cassert>
+#include <string>
 
 #include "avl_tree.h"
 
@@ -178,6 +179,29 @@ void test_get_max(void) {
 	}
 }
 
+static void test_find(void) {
+
+	avl_tree t;
+
+	t.insert(200, "a");
+	t.insert(300, "c");
+	t.insert(100, "b");
+
+	std::string result;
+
+	result = t.find(200);
+
+	if ( result != "a" ) {
+		std::cout << "find failed" << std::endl;
+	}
+
+	result = t.find(400);
+
+	if ( result != "" ) {
+		std::cout << "find failed" << std::endl;
+	}
+}
+
 void run_all_avl_tests(void) {
 
 	test_empty();
@@ -191,4 +215,6 @@ void run_all_avl_tests(void) {
 
 	test_get_min();
 	test_get_max();
+
+	test_find();
 }

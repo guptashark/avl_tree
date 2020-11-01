@@ -54,6 +54,8 @@ public:
 	int get_min(void);
 	int get_max(void);
 
+	std::string find(int key);
+
 	void print_structure();
 };
 

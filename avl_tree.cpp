@@ -401,6 +401,30 @@ int avl_tree::get_max(void) {
 	return current->key;
 }
 
+std::string avl_tree::find(int key) {
+
+	// what if the tree doesn't contain the key...
+	// return an empty string?
+	node * current = root;
+
+	while ( current != nullptr ) {
+
+		if ( current->key == key) {
+			return current->val;
+		} else {
+			if ( key > current->key ) {
+				current = current->right;
+			} else {
+				current = current->left;
+			}
+		}
+	}
+
+	// key doesn't exist in tree.
+	std::string empty;
+	return empty;
+}
+
 void avl_tree::print_structure(void) {
 
 	root->print_structure(0);
