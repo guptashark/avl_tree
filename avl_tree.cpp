@@ -4,8 +4,9 @@
 
 // node ctor
 // indent the member initializer list for easy reading.
-avl_tree::node::node(int key):
+avl_tree::node::node(int key, const std::string & val):
 	key(key),
+	val(val),
 	left(nullptr),
 	right(nullptr),
 	parent(nullptr),
@@ -135,9 +136,11 @@ bool avl_tree::equality_check_helper
 	return ( left_match && right_match );
 }
 
-avl_tree::node * avl_tree::insert_helper(int key) {
+avl_tree::node *
+avl_tree::insert_helper
+(int key, const std::string & val) {
 
-	node * new_node = new node(key);
+	node * new_node = new node(key, val);
 
 	if ( root == nullptr ) {
 		root = new_node;
@@ -177,8 +180,12 @@ avl_tree::node * avl_tree::insert_helper(int key) {
 }
 
 void avl_tree::insert(int key) {
+	insert(key, "");
+}
 
-	node * added_node = insert_helper(key);
+void avl_tree::insert(int key, const std::string & val) {
+
+	node * added_node = insert_helper(key, val);
 	rebalance(added_node);
 }
 
@@ -191,7 +198,9 @@ void avl_tree::rebalance(avl_tree::node * added_node) {
 	}
 }
 
-avl_tree::node * avl_tree::update_balances(avl_tree::node * added_node) {
+avl_tree::node *
+avl_tree::update_balances
+(avl_tree::node * added_node) {
 
 	node * curr = added_node->parent;
 
