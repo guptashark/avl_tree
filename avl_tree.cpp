@@ -366,6 +366,32 @@ bool avl_tree::equality_check(const avl_tree & other) {
 	return equality_check_helper(root, other.root);
 }
 
+int avl_tree::get_min(void) {
+
+	// TODO: situation when the tree is empty?
+
+	node * current = root;
+
+	while ( current->left != nullptr ) {
+		current = current->left;
+	}
+
+	return current->key;
+}
+
+int avl_tree::get_max(void) {
+
+	// TODO: situation when the tree is empty?
+
+	node * current = root;
+
+	while ( current->right != nullptr ) {
+		current = current->right;
+	}
+
+	return current->key;
+}
+
 void avl_tree::print_structure(void) {
 
 	root->print_structure(0);

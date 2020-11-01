@@ -116,6 +116,68 @@ void test_right_left_rotation(void) {
 	}
 }
 
+void test_get_min(void) {
+
+	{
+		avl_tree actual_tree;
+
+		actual_tree.insert(100);
+		actual_tree.insert(200);
+		actual_tree.insert(300);
+
+		int min_val = actual_tree.get_min();
+
+		if ( min_val != 100 ) {
+			std::cout << "Get min failed" << std::endl;
+		}
+	}
+
+	{
+		avl_tree actual_tree;
+
+		actual_tree.insert(300);
+		actual_tree.insert(200);
+		actual_tree.insert(100);
+
+		int min_val = actual_tree.get_min();
+
+		if ( min_val != 100 ) {
+			std::cout << "Get min failed" << std::endl;
+		}
+	}
+}
+
+void test_get_max(void) {
+
+	{
+		avl_tree actual_tree;
+
+		actual_tree.insert(300);
+		actual_tree.insert(200);
+		actual_tree.insert(100);
+
+		int max_val = actual_tree.get_max();
+
+		if ( max_val != 300 ) {
+			std::cout << "Get max failed" << std::endl;
+		}
+	}
+
+	{
+		avl_tree actual_tree;
+
+		actual_tree.insert(100);
+		actual_tree.insert(200);
+		actual_tree.insert(300);
+
+		int max_val = actual_tree.get_max();
+
+		if ( max_val != 300 ) {
+			std::cout << "Get max failed" << std::endl;
+		}
+	}
+}
+
 void run_all_avl_tests(void) {
 
 	test_empty();
@@ -126,4 +188,7 @@ void run_all_avl_tests(void) {
 
 	test_left_right_rotation();
 	test_right_left_rotation();
+
+	test_get_min();
+	test_get_max();
 }

@@ -46,6 +46,9 @@ public:
 
 	bool equality_check(const avl_tree & other);
 
+	int get_min(void);
+	int get_max(void);
+
 	void print_structure();
 };
 

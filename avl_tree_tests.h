@@ -8,6 +8,8 @@ void test_left_rotation(void);
 void test_right_rotation(void);
 void test_left_right_rotation(void);
 void test_right_left_rotation(void);
+void test_get_min(void);
+void test_get_max(void);
 
 void run_all_avl_tests(void);
 
