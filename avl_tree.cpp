@@ -120,36 +120,28 @@ avl_tree::insert_helper
 
 	node * new_node = new node(key, val);
 
-	if ( root == nullptr ) {
-		root = new_node;
-		num_nodes++;
-		return new_node;
+	node * current = root;
+	node * par = nullptr;
+
+	while ( current != nullptr ) {
+		par = current;
+		if ( key > current->key) {
+			current = current->right;
+		} else {
+			current = current->left;
+		}
 	}
 
-	node * curr = root;
-
-	bool node_inserted = false;
-
-	while ( node_inserted == false ) {
-
-		if ( new_node->key > curr->key ) {
-
-			if ( curr->right != nullptr ) {
-				curr = curr->right;
-			} else {
-				curr->right = new_node;
-				new_node->parent = curr;
-				node_inserted = true;
-			}
+	if ( par == nullptr ) {
+		root = new_node;
+	} else {
+		if ( key > par->key ) {
+			par->right = new_node;
 		} else {
-			if ( curr->left != nullptr ) {
-				curr = curr->left;
-			} else {
-				curr->left = new_node;
-				new_node->parent = curr;
-				node_inserted = true;
-			}
+			par->left = new_node;
 		}
+
+		new_node->parent = par;
 	}
 
 	num_nodes++;
