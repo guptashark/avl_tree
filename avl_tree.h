@@ -3,29 +3,13 @@
 
 #include <string>
 
-class node;
 
 class avl_tree {
 
 private:
 
-
-	// number of nodes
-	int num_nodes;
-
-	node * root;
-
-	// private member functions
-	int get_node_balance(node * n);
-	int get_node_height(node * n);
-	bool equality_check_helper(node * a, node * b);
-
-	node * insert_helper(int key, const std::string & val);
-	void rebalance(node * added_node);
-	node * update_balances(node * added_node);
-
-	void execute_rotations(node * unblanaced_subtree);
-	void single_rotation(node *x, node *z, char direction);
+	class avl_tree_impl;
+	avl_tree_impl * impl;
 
 public:
 	avl_tree(void);
