@@ -84,43 +84,21 @@ int avl_tree::get_node_height(avl_tree::node * n) {
 bool avl_tree::equality_check_helper
 (avl_tree::node * a, avl_tree::node * b) {
 
-	if ( (a == nullptr) && (b == nullptr)) {
-		return true;
-	}
+	// check either both are null, or both not null.
+	if ( (a == nullptr) && (b == nullptr)) return true;
+	if ( (a == nullptr) || (b == nullptr)) return false;
 
-	// check that one isn't a nullptr
-	{
-		if ( (a == nullptr) && (b != nullptr)) {
-			return false;
-		}
-
-		if ( (a != nullptr) && (b == nullptr)) {
-			return false;
-		}
-	}
-
-	// check key
-	if ( a->key != b->key) {
-		return false;
-	}
-
-	// check the height
-	if ( a->height != b->height ) {
-		return false;
-	}
+	// check key and height
+	if ( a->key != b->key) return false;
+	if ( a->height != b->height ) return false;
 
 	// check that the key of the parent is the same.
 	{
 		node * p_a = a->parent;
 		node * p_b = b->parent;
 
-		if ( (p_a == nullptr) && (p_b != nullptr)) {
-			return false;
-		}
-
-		if ( (p_a != nullptr) && (p_b == nullptr)) {
-			return false;
-		}
+		if ( (p_a == nullptr) && (p_b != nullptr)) return false;
+		if ( (p_a != nullptr) && (p_b == nullptr)) return false;
 
 		if ( p_a != nullptr ) {
 			if ( p_a->key != p_b->key) {
