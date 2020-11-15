@@ -7,9 +7,7 @@
 class avl_tree {
 
 private:
-
-	class avl_tree_impl;
-	avl_tree_impl * impl;
+	void * impl;
 
 public:
 	avl_tree(void);

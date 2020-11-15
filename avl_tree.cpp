@@ -71,7 +71,7 @@ void node::print_structure(int indent) {
 	std::cout << ")";
 }
 
-class avl_tree::avl_tree_impl {
+class avl_tree_impl {
 
 private:
 	// number of nodes
@@ -101,7 +101,7 @@ public:
 	void insert(int key);
 	void insert(int key, const std::string & val);
 
-	bool equality_check(const avl_tree::avl_tree_impl * other);
+	bool equality_check(const avl_tree_impl * other);
 
 	int get_min(void);
 	int get_max(void);
@@ -112,18 +112,18 @@ public:
 
 };
 
-avl_tree::avl_tree_impl::avl_tree_impl
+avl_tree_impl::avl_tree_impl
 (void): num_nodes(0), root(nullptr) {}
 
-bool avl_tree::avl_tree_impl::empty(void) const {
+bool avl_tree_impl::empty(void) const {
 	return num_nodes == 0;
 }
 
-int avl_tree::avl_tree_impl::size(void) const {
+int avl_tree_impl::size(void) const {
 	return num_nodes;
 }
 
-int avl_tree::avl_tree_impl::get_node_balance(node * n) {
+int avl_tree_impl::get_node_balance(node * n) {
 	int left_height = get_node_height(n->left);
 	int right_height = get_node_height(n->right);
 	int balance = right_height - left_height;
@@ -131,7 +131,7 @@ int avl_tree::avl_tree_impl::get_node_balance(node * n) {
 	return balance;
 }
 
-int avl_tree::avl_tree_impl::get_node_height(node * n) {
+int avl_tree_impl::get_node_height(node * n) {
 	if ( n == nullptr ) {
 		return 0;
 	} else {
@@ -139,7 +139,7 @@ int avl_tree::avl_tree_impl::get_node_height(node * n) {
 	}
 }
 
-bool avl_tree::avl_tree_impl::equality_check_helper
+bool avl_tree_impl::equality_check_helper
 (node * a, node * b) {
 
 	// check either both are null, or both not null.
@@ -173,7 +173,7 @@ bool avl_tree::avl_tree_impl::equality_check_helper
 }
 
 node *
-avl_tree::avl_tree_impl::insert_helper
+avl_tree_impl::insert_helper
 (int key, const std::string & val) {
 
 	node * new_node = new node(key, val);
@@ -207,17 +207,17 @@ avl_tree::avl_tree_impl::insert_helper
 	return new_node;
 }
 
-void avl_tree::avl_tree_impl::insert(int key) {
+void avl_tree_impl::insert(int key) {
 	insert(key, "");
 }
 
-void avl_tree::avl_tree_impl::insert(int key, const std::string & val) {
+void avl_tree_impl::insert(int key, const std::string & val) {
 
 	node * added_node = insert_helper(key, val);
 	rebalance(added_node);
 }
 
-void avl_tree::avl_tree_impl::rebalance(node * added_node) {
+void avl_tree_impl::rebalance(node * added_node) {
 
 	node * unblanaced_subtree = update_balances(added_node);
 
@@ -227,7 +227,7 @@ void avl_tree::avl_tree_impl::rebalance(node * added_node) {
 }
 
 node *
-avl_tree::avl_tree_impl::update_balances
+avl_tree_impl::update_balances
 (node * added_node) {
 
 	node * curr = added_node->parent;
@@ -274,7 +274,7 @@ avl_tree::avl_tree_impl::update_balances
 	return nullptr;
 }
 
-void avl_tree::avl_tree_impl::execute_rotations(node * unbalanced_subtree) {
+void avl_tree_impl::execute_rotations(node * unbalanced_subtree) {
 
 	node * x = unbalanced_subtree;
 	node * z = nullptr;
@@ -301,7 +301,7 @@ void avl_tree::avl_tree_impl::execute_rotations(node * unbalanced_subtree) {
 	}
 }
 
-void avl_tree::avl_tree_impl::single_rotation
+void avl_tree_impl::single_rotation
 (node *x, node *z, char direction) {
 
 	node * par = x->parent;
@@ -361,13 +361,13 @@ void avl_tree::avl_tree_impl::single_rotation
 }
 
 
-bool avl_tree::avl_tree_impl::equality_check
-(const avl_tree::avl_tree_impl * other) {
+bool avl_tree_impl::equality_check
+(const avl_tree_impl * other) {
 
 	return equality_check_helper(root, other->root);
 }
 
-int avl_tree::avl_tree_impl::get_min(void) {
+int avl_tree_impl::get_min(void) {
 
 	// TODO: situation when the tree is empty?
 
@@ -380,7 +380,7 @@ int avl_tree::avl_tree_impl::get_min(void) {
 	return current->key;
 }
 
-int avl_tree::avl_tree_impl::get_max(void) {
+int avl_tree_impl::get_max(void) {
 
 	// TODO: situation when the tree is empty?
 
@@ -393,7 +393,7 @@ int avl_tree::avl_tree_impl::get_max(void) {
 	return current->key;
 }
 
-std::string avl_tree::avl_tree_impl::find(int key) {
+std::string avl_tree_impl::find(int key) {
 
 	// what if the tree doesn't contain the key...
 	// return an empty string?
@@ -417,7 +417,7 @@ std::string avl_tree::avl_tree_impl::find(int key) {
 	return empty;
 }
 
-void avl_tree::avl_tree_impl::print_structure(void) {
+void avl_tree_impl::print_structure(void) {
 
 	root->print_structure(0);
 
@@ -431,37 +431,51 @@ avl_tree::avl_tree(void) {
 }
 
 bool avl_tree::empty(void) const {
-	return impl->empty();
+	avl_tree_impl * p = static_cast<avl_tree_impl *>(impl);
+	return p->empty();
 }
 
 int avl_tree::size(void) const {
-	return impl->size();
+	avl_tree_impl * p = static_cast<avl_tree_impl *>(impl);
+	return p->size();
 }
 
 void avl_tree::insert(int key) {
-	return impl->insert(key);
+	avl_tree_impl * p = static_cast<avl_tree_impl *>(impl);
+	return p->insert(key);
 }
 
 void avl_tree::insert(int key, const std::string & val) {
-	return impl->insert(key, val);
+	avl_tree_impl * p = static_cast<avl_tree_impl *>(impl);
+	return p->insert(key, val);
 }
 
 bool avl_tree::equality_check(const avl_tree & other) {
-	return impl->equality_check(other.impl);
+	avl_tree_impl * p = nullptr;
+	avl_tree_impl * other_p = nullptr;
+
+	p = static_cast<avl_tree_impl *>(impl);
+	other_p = static_cast<avl_tree_impl *>(other.impl);
+
+	return p->equality_check( other_p );
 }
 
 int avl_tree::get_min(void) {
-	return impl->get_min();
+	avl_tree_impl * p = static_cast<avl_tree_impl *>(impl);
+	return p->get_min();
 }
 
 int avl_tree::get_max(void) {
-	return impl->get_max();
+	avl_tree_impl * p = static_cast<avl_tree_impl *>(impl);
+	return p->get_max();
 }
 
 std::string avl_tree::find(int key) {
-	return impl->find(key);
+	avl_tree_impl * p = static_cast<avl_tree_impl *>(impl);
+	return p->find(key);
 }
 
 void avl_tree::print_structure(void) {
-	return impl->print_structure();
+	avl_tree_impl * p = static_cast<avl_tree_impl *>(impl);
+	return p->print_structure();
 }
