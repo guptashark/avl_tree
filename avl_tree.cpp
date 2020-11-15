@@ -234,31 +234,31 @@ void avl_tree::execute_rotations(avl_tree::node * unbalanced_subtree) {
 		z = x->right;
 		if ( get_node_balance(z) == -1) {
 			y = z->left;
-			rotate_right(z, y);
-			rotate_left(x, y);
+			single_rotation(z, y, 'R');
+			single_rotation(x, y, 'L');
 		} else {
-			rotate_left(x, z);
+			single_rotation(x, z, 'L');
 		}
 	} else {
 		z = x->left;
 		if ( get_node_balance(z) == 1) {
 			y = z->right;
-			rotate_left(z, y);
-			rotate_right(x, y);
+			single_rotation(z, y, 'L');
+			single_rotation(x, y, 'R');
 		} else {
-			rotate_right(x, z);
+			single_rotation(x, z, 'R');
 		}
 	}
 }
 
-void avl_tree::rotate_left(avl_tree::node *x, avl_tree::node *z) {
+void avl_tree::single_rotation
+(avl_tree::node *x, avl_tree::node *z, char direction) {
 
 	node * par = x->parent;
 	z->parent = par;
 
 	// update so that z is the root of the subtree.
 	if ( par != nullptr) {
-
 		if ( par->left == x) {
 			par->left = z;
 		} else {
@@ -268,13 +268,23 @@ void avl_tree::rotate_left(avl_tree::node *x, avl_tree::node *z) {
 		root = z;
 	}
 
-	x->right = z->left;
-	if ( x->right != nullptr) {
-		x->right->parent = x;
-	}
+	if ( direction == 'R' ) {
+		x->left = z->right;
+		if ( x->left != nullptr) {
+			x->left->parent = x;
+		}
 
-	z->left = x;
-	x->parent = z;
+		z->right = x;
+		x->parent = z;
+	} else {
+		x->right = z->left;
+		if ( x->right != nullptr) {
+			x->right->parent = x;
+		}
+
+		z->left = x;
+		x->parent = z;
+	}
 
 	// recalculate the heights.
 	{
@@ -300,53 +310,6 @@ void avl_tree::rotate_left(avl_tree::node *x, avl_tree::node *z) {
 	}
 }
 
-void avl_tree::rotate_right(avl_tree::node *x, avl_tree::node *z) {
-
-	node * par = x->parent;
-	z->parent = par;
-
-	// update so that z is the root of the subtree.
-	if ( par != nullptr) {
-		if ( par->left == x) {
-			par->left = z;
-		} else {
-			par->right = z;
-		}
-	} else {
-		root = z;
-	}
-
-	x->left = z->right;
-	if ( x->left != nullptr) {
-		x->left->parent = x;
-	}
-
-	z->right = x;
-	x->parent = z;
-
-	// recalculate the heights.
-	{
-		int left_height = get_node_height(x->left);
-		int right_height = get_node_height(x->right);
-
-		if ( left_height > right_height ) {
-			x->height = left_height + 1;
-		} else {
-			x->height = right_height + 1;
-		}
-	}
-
-	{
-		int left_height = get_node_height(z->left);
-		int right_height = get_node_height(z->right);
-
-		if ( left_height > right_height ) {
-			z->height = left_height + 1;
-		} else {
-			z->height = right_height + 1;
-		}
-	}
-}
 
 bool avl_tree::equality_check(const avl_tree & other) {
 
