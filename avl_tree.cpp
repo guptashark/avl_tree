@@ -2,9 +2,24 @@
 
 #include "avl_tree.h"
 
+class node {
+public:
+	int key;
+	std::string val;
+	node * left;
+	node * right;
+	node * parent;
+
+	int height;
+
+	node(int key, const std::string & val);
+
+	void print_structure(int indent);
+};
+
 // node ctor
 // indent the member initializer list for easy reading.
-avl_tree::node::node(int key, const std::string & val):
+node::node(int key, const std::string & val):
 	key(key),
 	val(val),
 	left(nullptr),
@@ -12,7 +27,7 @@ avl_tree::node::node(int key, const std::string & val):
 	parent(nullptr),
 	height(1) {}
 
-void avl_tree::node::print_structure(int indent) {
+void node::print_structure(int indent) {
 
 	std::cout << "(P: " << key;
 	std::cout << " (h: " << height << ")";
@@ -65,7 +80,7 @@ int avl_tree::size(void) const {
 	return num_nodes;
 }
 
-int avl_tree::get_node_balance(avl_tree::node * n) {
+int avl_tree::get_node_balance(node * n) {
 	int left_height = get_node_height(n->left);
 	int right_height = get_node_height(n->right);
 	int balance = right_height - left_height;
@@ -73,7 +88,7 @@ int avl_tree::get_node_balance(avl_tree::node * n) {
 	return balance;
 }
 
-int avl_tree::get_node_height(avl_tree::node * n) {
+int avl_tree::get_node_height(node * n) {
 	if ( n == nullptr ) {
 		return 0;
 	} else {
@@ -82,7 +97,7 @@ int avl_tree::get_node_height(avl_tree::node * n) {
 }
 
 bool avl_tree::equality_check_helper
-(avl_tree::node * a, avl_tree::node * b) {
+(node * a, node * b) {
 
 	// check either both are null, or both not null.
 	if ( (a == nullptr) && (b == nullptr)) return true;
@@ -114,7 +129,7 @@ bool avl_tree::equality_check_helper
 	return ( left_match && right_match );
 }
 
-avl_tree::node *
+node *
 avl_tree::insert_helper
 (int key, const std::string & val) {
 
@@ -159,7 +174,7 @@ void avl_tree::insert(int key, const std::string & val) {
 	rebalance(added_node);
 }
 
-void avl_tree::rebalance(avl_tree::node * added_node) {
+void avl_tree::rebalance(node * added_node) {
 
 	node * unblanaced_subtree = update_balances(added_node);
 
@@ -168,9 +183,9 @@ void avl_tree::rebalance(avl_tree::node * added_node) {
 	}
 }
 
-avl_tree::node *
+node *
 avl_tree::update_balances
-(avl_tree::node * added_node) {
+(node * added_node) {
 
 	node * curr = added_node->parent;
 
@@ -216,7 +231,7 @@ avl_tree::update_balances
 	return nullptr;
 }
 
-void avl_tree::execute_rotations(avl_tree::node * unbalanced_subtree) {
+void avl_tree::execute_rotations(node * unbalanced_subtree) {
 
 	node * x = unbalanced_subtree;
 	node * z = nullptr;
@@ -244,7 +259,7 @@ void avl_tree::execute_rotations(avl_tree::node * unbalanced_subtree) {
 }
 
 void avl_tree::single_rotation
-(avl_tree::node *x, avl_tree::node *z, char direction) {
+(node *x, node *z, char direction) {
 
 	node * par = x->parent;
 	z->parent = par;

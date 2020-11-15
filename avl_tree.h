@@ -3,23 +3,12 @@
 
 #include <string>
 
+class node;
+
 class avl_tree {
 
 private:
-	class node {
-	public:
-		int key;
-		std::string val;
-		node * left;
-		node * right;
-		node * parent;
 
-		int height;
-
-		node(int key, const std::string & val);
-
-		void print_structure(int indent);
-	};
 
 	// number of nodes
 	int num_nodes;
